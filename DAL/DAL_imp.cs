@@ -62,6 +62,7 @@ namespace DAL
                 newCurrency.Name = issuesCountryName;
                 newCurrency.TimeUpdate = DateTime.Now;
                 newCurrency.Flag = ("UserInterface/Flags/" + qoute.Key.Substring(3) + ".png");
+                //asdasdasddasddasd
                 CurrenciesList.Add(newCurrency);
             }
             return CurrenciesList;
@@ -88,8 +89,7 @@ namespace DAL
 
         public Task<List<Currency>> loadCurrenciesHistory(string initial)
         {
-            throw new NotImplementedException();
-
+            return null;
         }
     }
 }
