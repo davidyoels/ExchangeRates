@@ -54,6 +54,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\ClearListCommand.cs" />
+    <Compile Include="Commands\ConvertApplyButtonCommand.cs" />
+    <Compile Include="Commands\ConvertSwapButtonCommand.cs" />
+    <Compile Include="Commands\MenuConvertionCommand.cs" />
+    <Compile Include="Commands\MenuHistoricalCommand.cs" />
+    <Compile Include="Commands\MenuLiveRateCommand.cs" />
+    <Compile Include="Commands\RemoveButtonCommand.cs" />
+    <Compile Include="Models\MainModel.cs" />
+    <Compile Include="UesrControls\ConvertionCurrencies.xaml.cs">
+      <DependentUpon>ConvertionCurrencies.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UesrControls\HistoricalData.xaml.cs">
+      <DependentUpon>HistoricalData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UesrControls\LiveRate.xaml.cs">
+      <DependentUpon>LiveRate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ConvertionCrrViewModel.cs" />
+    <Compile Include="ViewModels\LiveRateViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -66,8 +86,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UesrControls\ConvertionCurrencies.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UesrControls\HistoricalData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UesrControls\LiveRate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ConvertionModel.cs" />
+    <Compile Include="Models\HistoricalRatingModel.cs" />
+    <Compile Include="Models\LiveRatingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -92,6 +127,191 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AED.png" />
+    <Resource Include="Images\AFN.png" />
+    <Resource Include="Images\ALL.png" />
+    <Resource Include="Images\AMD.png" />
+    <Resource Include="Images\ANG.png" />
+    <Resource Include="Images\AOA.png" />
+    <Resource Include="Images\ARS.png" />
+    <Resource Include="Images\AUD.png" />
+    <Resource Include="Images\AWG.png" />
+    <Resource Include="Images\AZN.png" />
+    <Resource Include="Images\BAM.png" />
+    <Resource Include="Images\BBD.png" />
+    <Resource Include="Images\BDT.png" />
+    <Resource Include="Images\BGN.png" />
+    <Resource Include="Images\BHD.png" />
+    <Resource Include="Images\BIF.png" />
+    <Resource Include="Images\BMD.png" />
+    <Resource Include="Images\BND.png" />
+    <Resource Include="Images\BOB.png" />
+    <Resource Include="Images\BRL.png" />
+    <Resource Include="Images\BSD.png" />
+    <Resource Include="Images\BTC.png" />
+    <Resource Include="Images\BTN.png" />
+    <Resource Include="Images\BWP.png" />
+    <Resource Include="Images\BYN.png" />
+    <Resource Include="Images\BYR.png" />
+    <Resource Include="Images\BZD.png" />
+    <Resource Include="Images\CAD.png" />
+    <Resource Include="Images\CDF.png" />
+    <Resource Include="Images\CHF.png" />
+    <Resource Include="Images\CLF.png" />
+    <Resource Include="Images\CLP.png" />
+    <Resource Include="Images\CNY.png" />
+    <Resource Include="Images\COP.png" />
+    <Resource Include="Images\CRC.png" />
+    <Resource Include="Images\CUC.png" />
+    <Resource Include="Images\CUP.png" />
+    <Resource Include="Images\CVE.png" />
+    <Resource Include="Images\CZK.png" />
+    <Resource Include="Images\DJF.png" />
+    <Resource Include="Images\DKK.png" />
+    <Resource Include="Images\DOP.png" />
+    <Resource Include="Images\DZD.png" />
+    <Resource Include="Images\EGP.png" />
+    <Resource Include="Images\ERN.png" />
+    <Resource Include="Images\ETB.png" />
+    <Resource Include="Images\EUR.png" />
+    <Resource Include="Images\FJD.png" />
+    <Resource Include="Images\FKP.png" />
+    <Resource Include="Images\GBP.png" />
+    <Resource Include="Images\GEL.png" />
+    <Resource Include="Images\GGP.png" />
+    <Resource Include="Images\GHS.png" />
+    <Resource Include="Images\GIP.png" />
+    <Resource Include="Images\GMD.png" />
+    <Resource Include="Images\GNF.png" />
+    <Resource Include="Images\GTQ.png" />
+    <Resource Include="Images\GYD.png" />
+    <Resource Include="Images\HKD.png" />
+    <Resource Include="Images\HNL.png" />
+    <Resource Include="Images\HRK.png" />
+    <Resource Include="Images\HTG.png" />
+    <Resource Include="Images\HUF.png" />
+    <Resource Include="Images\IDR.png" />
+    <Resource Include="Images\ILS.png" />
+    <Resource Include="Images\IMP.png" />
+    <Resource Include="Images\INR.png" />
+    <Resource Include="Images\IQD.png" />
+    <Resource Include="Images\IRR.png" />
+    <Resource Include="Images\ISK.png" />
+    <Resource Include="Images\JEP.png" />
+    <Resource Include="Images\JMD.png" />
+    <Resource Include="Images\JOD.png" />
+    <Resource Include="Images\JPY.png" />
+    <Resource Include="Images\KES.png" />
+    <Resource Include="Images\KGS.png" />
+    <Resource Include="Images\KHR.png" />
+    <Resource Include="Images\KMF.png" />
+    <Resource Include="Images\KPW.png" />
+    <Resource Include="Images\KRW.png" />
+    <Resource Include="Images\KWD.png" />
+    <Resource Include="Images\KYD.png" />
+    <Resource Include="Images\KZT.png" />
+    <Resource Include="Images\LAK.png" />
+    <Resource Include="Images\LBP.png" />
+    <Resource Include="Images\LKR.png" />
+    <Resource Include="Images\LRD.png" />
+    <Resource Include="Images\LSL.png" />
+    <Resource Include="Images\LTL.png" />
+    <Resource Include="Images\LVL.png" />
+    <Resource Include="Images\LYD.png" />
+    <Resource Include="Images\MAD.png" />
+    <Resource Include="Images\MDL.png" />
+    <Resource Include="Images\MGA.png" />
+    <Resource Include="Images\MKD.png" />
+    <Resource Include="Images\MMK.png" />
+    <Resource Include="Images\MNT.png" />
+    <Resource Include="Images\MOP.png" />
+    <Resource Include="Images\MRO.png" />
+    <Resource Include="Images\MRU.png" />
+    <Resource Include="Images\MUR.png" />
+    <Resource Include="Images\MVR.png" />
+    <Resource Include="Images\MWK.png" />
+    <Resource Include="Images\MXN.png" />
+    <Resource Include="Images\MYR.png" />
+    <Resource Include="Images\MZN.png" />
+    <Resource Include="Images\NAD.png" />
+    <Resource Include="Images\NGN.png" />
+    <Resource Include="Images\NIO.png" />
+    <Resource Include="Images\NOK.png" />
+    <Resource Include="Images\NPR.png" />
+    <Resource Include="Images\NZD.png" />
+    <Resource Include="Images\OMR.png" />
+    <Resource Include="Images\PAB.png" />
+    <Resource Include="Images\PEN.png" />
+    <Resource Include="Images\PGK.png" />
+    <Resource Include="Images\PHP.png" />
+    <Resource Include="Images\PKR.png" />
+    <Resource Include="Images\PLN.png" />
+    <Resource Include="Images\PYG.png" />
+    <Resource Include="Images\QAR.png" />
+    <Resource Include="Images\RON.png" />
+    <Resource Include="Images\RSD.png" />
+    <Resource Include="Images\RUB.png" />
+    <Resource Include="Images\RWF.png" />
+    <Resource Include="Images\SAR.png" />
+    <Resource Include="Images\SBD.png" />
+    <Resource Include="Images\SCR.png" />
+    <Resource Include="Images\SDG.png" />
+    <Resource Include="Images\SEK.png" />
+    <Resource Include="Images\SGD.png" />
+    <Resource Include="Images\SHP.png" />
+    <Resource Include="Images\SLL.png" />
+    <Resource Include="Images\SOS.png" />
+    <Resource Include="Images\SRD.png" />
+    <Resource Include="Images\STD.png" />
+    <Resource Include="Images\SVC.png" />
+    <Resource Include="Images\SYP.png" />
+    <Resource Include="Images\SZL.png" />
+    <Resource Include="Images\THB.png" />
+    <Resource Include="Images\TJS.png" />
+    <Resource Include="Images\TJZ.png" />
+    <Resource Include="Images\TMT.png" />
+    <Resource Include="Images\TND.png" />
+    <Resource Include="Images\TOP.png" />
+    <Resource Include="Images\TRY.png" />
+    <Resource Include="Images\TTD.png" />
+    <Resource Include="Images\TWD.png" />
+    <Resource Include="Images\TZS.png" />
+    <Resource Include="Images\UAH.png" />
+    <Resource Include="Images\UGX.png" />
+    <Resource Include="Images\USD.png" />
+    <Resource Include="Images\UYU.png" />
+    <Resource Include="Images\UZS.png" />
+    <Resource Include="Images\VEF.png" />
+    <Resource Include="Images\VND.png" />
+    <Resource Include="Images\VUV.png" />
+    <Resource Include="Images\WST.png" />
+    <Resource Include="Images\XAF.png" />
+    <Resource Include="Images\XAG.png" />
+    <Resource Include="Images\XAU.png" />
+    <Resource Include="Images\XCD.png" />
+    <Resource Include="Images\XDR.png" />
+    <Resource Include="Images\XOF.png" />
+    <Resource Include="Images\XPF.png" />
+    <Resource Include="Images\YER.png" />
+    <Resource Include="Images\ZAR.png" />
+    <Resource Include="Images\ZMK.png" />
+    <Resource Include="Images\ZMW.png" />
+    <Resource Include="Images\ZWL.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BL\BL.csproj">
+      <Project>{16b05d74-13cd-49eb-b7e3-461d1f3f373b}</Project>
+      <Name>BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DP\DP.csproj">
+      <Project>{d2f7eace-a592-48e0-a9c5-711e9c404115}</Project>
+      <Name>DP</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ConvertionImage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

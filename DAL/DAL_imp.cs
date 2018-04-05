@@ -7,47 +7,58 @@ using DP;
 using System.Data.Entity;
 
 
+
 namespace DAL
 {
     public class DAL_imp : IDAL
     {
-        public async Task<List<Currency>> loadCurrencies()
+        #region get list of updated currencies
+        public async Task<List<DBCurrency>> loadCurrenciesAsync()
         {
-            List<Currency> currencies;
-            using (DB_Context context = new DB_Context())
-            {
-
-                currencies = await context.currencies.ToListAsync();
-
-            }
-            if (currencies.Any() && IsUpdate(currencies))
-            {
-                return currencies;
-            }
+            DB_Context context = new DB_Context();
+            List<Currency> Currencies;
+            //ToListAsync-convert from the DbSet<Currency> to List<Currency>
+            Currencies = await context.currencies.ToListAsync().ConfigureAwait(false);
+            //check if he is not empty otherwise we need to charge the list from the webSite using the Api.
+            if (Currencies.Any() && CheckIfUpdate(Currencies))
+                return ChangeToDBCurrencies(Currencies);           
             else
             {
+                //using the instance we get the access to the webSite by the api.
                 var instance = new CurrencyLayerDotNet.CurrencyLayerApi();
-                //CurrencyLayerDotNet refer to Model
-                var CurrenciesList = await instance.Invoke<CurrencyLayerDotNet.Models.CurrencyListModel>("list");
-                var CurrenciesValues = await instance.Invoke<CurrencyLayerDotNet.Models.LiveModel>("list");
+                //await - says that i will we give the cpu to anyone who wants and i will wait.
+                //here we invoke the function to get the list of initilais with their full name and resotore them using the Models.
+                //Models.CurrencyListModel - have "terms" "privacy" "currencies".
+                var CurrenciesList = await instance.Invoke<CurrencyLayerDotNet.Models.CurrencyListModel>("list").ConfigureAwait(false);
+                var CurrenciesValues = await instance.Invoke<CurrencyLayerDotNet.Models.LiveModel>("live").ConfigureAwait(false);
                 if (CurrenciesList.Success == true)
                 {
-                    currencies = CurrenciesList.quotes.Select(t => new Currency() { Initials = t.Key, Name = t.Value }).ToList();
-                    currencies = UpdateValueToCurrenciesByNames(currencies, CurrenciesValues);
+                    Currencies = CurrenciesList.quotes.Select(t => new Currency() { Initials = t.Key, FullName = t.Value }).ToList();// "BND": "Brunei Dollar",
+                    Currencies = UpdateValueToCurrenciesByNames(Currencies, CurrenciesValues);
 
-                    using (DB_Context context = new DB_Context())
+                    //this used to remove all the currencies form the data base and to insert the new currencies.
+                    foreach (var t in context.currencies)
                     {
-
-                        context.currencies.AddRange(currencies);
-                        await context.SaveChangesAsync();
-
+                        context.currencies.Remove(t);
                     }
-                    return currencies;
-
+                    context.currencies.AddRange(Currencies);
+                    await context.SaveChangesAsync();
+                    return ChangeToDBCurrencies(Currencies);
                 }
                 else
                     return null;
             }
+        }
+
+        private List<DBCurrency> ChangeToDBCurrencies(List<Currency> currencies)//Upgrade
+        {
+            var newList = new List<DBCurrency>();
+            foreach (Currency c in currencies)
+            {
+                var temp = new DBCurrency(c);
+                newList.Add(temp);
+            }
+            return newList;
         }
 
         private List<Currency> UpdateValueToCurrenciesByNames(List<Currency> Currencies, CurrencyLayerDotNet.Models.LiveModel RTRates)
@@ -55,26 +66,30 @@ namespace DAL
             List<Currency> CurrenciesList = new List<Currency>();
             foreach (var qoute in RTRates.quotes)
             {
+                //here we get the full name of the country currency."ILS"="UDS_ILS_" and return the full name of the country.
                 string issuesCountryName = Currencies.Find(t => t.Initials == qoute.Key.Substring(3)).FullName;
-                Currency newCurrency = new Currency();
-                newCurrency.Value = double.Parse(qoute.Value);
-                newCurrency.Initials = qoute.Key.Substring(3);
-                newCurrency.Name = issuesCountryName;
-                newCurrency.TimeUpdate = DateTime.Now;
-                newCurrency.Flag = ("UserInterface/Flags/" + qoute.Key.Substring(3) + ".png");
-                //asdasdasddasddasd
-                CurrenciesList.Add(newCurrency);
+                Currency currency = new Currency()
+                {
+                    Value = double.Parse(qoute.Value),
+                    Initials = qoute.Key.Substring(3),
+                    FullName = issuesCountryName,
+                    Date = DateTime.Now
+                    //Flag = ("PL/Flags/" + qoute.Key.Substring(3) + ".png")
+                };
+                CurrenciesList.Add(currency);
             }
             return CurrenciesList;
         }
 
-        #region Update Checking 
-        private bool IsUpdate(List<Currency> currencies)
+
+        #region check if update
+        private bool CheckIfUpdate(List<Currency> currencies)
         {
             DB_Context context = new DB_Context();
             Currency tmp = currencies.First();
             DateTime time = DateTime.Now.ToLocalTime();
-            if (tmp.TimeUpdate.AddHours(3) > DateTime.Now && IsItTheSameDay(tmp.Date))
+            //NEED TO CHANGE
+            if (tmp.Date.AddHours(3) > DateTime.Now && (IsItTheSameDay(tmp.Date)))
                 return true;
 
             context.Dispose();
@@ -85,11 +100,175 @@ namespace DAL
         {
             return (date.DayOfYear == DateTime.Now.DayOfYear && date.Year == DateTime.Now.Year);
         }
+
+        private bool IsItYesterday(DateTime date)
+        {
+            return (date.DayOfYear == (DateTime.Now.DayOfYear - 1) && date.Year == DateTime.Now.Year);
+        }
+        #endregion
         #endregion
 
-        public Task<List<Currency>> loadCurrenciesHistory(string initial)
+        /*    #region get dictionary of historical currencies' values by dates
+
+            public async Task<Dictionary<DateTime, double>> LoadCurrenciesHistory(string initials)
+            {
+                List<double> historyRates;
+                Dictionary<DateTime, double> dictionaryHCurrencies = new Dictionary<DateTime, double>();
+                HistoryCurrenciesL lastHistory;
+                HistoryCurrenciesL firstHistory;
+
+                DateTime lastHistoryDate;
+                DateTime firstHistoryDate;
+
+
+                using (DB_Context context = new DB_Context())
+                {
+                    //file the gap from now to the first date we have
+                    firstHistory = await context.historicalCurrencies.OrderByDescending(t => t.date).FirstOrDefaultAsync().ConfigureAwait(false);
+                    //firstHistoryDate = DateTime.Now.AddYears(-1);
+                    firstHistoryDate = firstHistory.date;
+
+                    if (firstHistory != null && !IsItYesterday(firstHistory.date))
+                    {
+                        List<CurrencyHistory> Curr = await LoadCountriesToHistory().ConfigureAwait(false);
+                        var instance = new CurrencyLayerDotNet.CurrencyLayerApi();
+
+                        for (DateTime start = firstHistoryDate.AddDays(1); DateTime.Now > start; start = start.AddDays(1))
+                        {
+                            var HRate = await instance.Invoke<CurrencyLayerDotNet.Models.HistoryModel>("historical", new Dictionary<string, string> { { "date", start.ToString("yyyy-MM-dd") } }).ConfigureAwait(false);
+                            HistoryCurrenciesL Hcurrencies = new HistoryCurrenciesL();
+                            Hcurrencies.date = start;
+                            Hcurrencies.HistCurrList = ConvertCurrencyToHistoricalCurrency(Curr, HRate);
+                            firstHistory = Hcurrencies;
+                            context.historicalCurrencies.Add(Hcurrencies);
+                        }
+                        //await context.SaveChangesAsync();
+                    }
+
+                    ////gets the last date from DB
+                    //lastHistory = await context.historicalCurrencies.OrderBy(t => t.date).FirstOrDefaultAsync().ConfigureAwait(false);
+
+                    ////if no currecies in the DB so make the first on to be the real time one
+                    //if (lastHistory == null)
+                    //{
+                    //    List<CurrencyHistory> Curr = await LoadCountriesToHistory();
+                    //    lastHistory.HistCurrList = await GetForNowCurrencyToHistoricalCurrency(Curr);
+                    //    lastHistory.date = DateTime.Now;
+                    //}
+
+
+                    //lastHistoryDate = lastHistory.date;
+
+                    ////fil the gap from the last date we have to a year
+                    //if (lastHistoryDate.AddYears(1) > DateTime.Now.AddDays(1))
+                    //{
+                    //    var instance = new CurrencyLayerDotNet.CurrencyLayerApi();
+                    //    List<CurrencyHistory> Curr = await LoadCountriesToHistory();
+
+                    //    for (DateTime start = lastHistoryDate; start.AddYears(1) > DateTime.Now; start = start.AddDays(-1))
+                    //    {
+                    //        var HRate = await instance.Invoke<CurrencyLayerDotNet.Models.HistoryModel>("historical", new Dictionary<string, string> { { "date", start.ToString("yyyy-MM-dd") } }).ConfigureAwait(false);
+                    //        HistoryCurrenciesL currencies = new HistoryCurrenciesL();
+                    //        currencies.date = start;
+                    //        currencies.HistCurrList = ConvertCurrencyToHistoricalCurrency(Curr, HRate);
+                    //        lastHistory = currencies;
+                    //        context.historicalCurrencies.Add(currencies);
+                    //    }
+
+                    //}
+                    await context.SaveChangesAsync();
+
+                    //get the historical dates
+                    historyRates = (from c in context.historicalCurrencies
+                                    let selected = (from h in c.HistCurrList
+                                                    where h.Initials == initials
+                                                    select h).FirstOrDefault()
+                                    orderby c.date
+                                    select selected.Value).ToList();
+
+
+                    //historyRates = await context.historicalCurrencies.OrderBy(t => t.date).Select(t => new CurrencyHistory() { Value = t.HistCurrList.FirstOrDefault(x => x.Initials == initials).Value, Initials = initials, FullName = t.HistCurrList.FirstOrDefault(x => x.Initials == initials).FullName }).ToListAsync().ConfigureAwait(false);
+                    List<DateTime> dates = await context.historicalCurrencies.OrderBy(t => t.date).Select(t => t.date).ToListAsync().ConfigureAwait(false);
+                    //dictionaryHCurrencies = historyRates.ToDictionary(key => DateTime.Now, value => value);
+                    try
+                    {
+                        for (int i = 1; i <= 365 && i <= dates.Count; i++)
+                        {
+                            dictionaryHCurrencies.Add(dates[dates.Count - i], historyRates[historyRates.Count - i]);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+
+                return dictionaryHCurrencies;
+            }
+
+            private async Task<List<CurrencyHistory>> GetForNowCurrencyToHistoricalCurrency(List<CurrencyHistory> curr)
+            {
+                var instance = new CurrencyLayerDotNet.CurrencyLayerApi();
+                var CurrenciesValues = await instance.Invoke<CurrencyLayerDotNet.Models.LiveModel>("list").ConfigureAwait(false);
+                List<CurrencyHistory> CurrenciesHList = new List<CurrencyHistory>();
+                foreach (var qoute in CurrenciesValues.quotes)
+                {
+                    string issuesCountryName = curr.Find(t => t.Initials == qoute.Key.Substring(3)).FullName;
+                    CurrencyHistory newCurrency = new CurrencyHistory()
+                    {
+                        Value = double.Parse(qoute.Value),
+                        Initials = qoute.Key.Substring(3),
+                        FullName = issuesCountryName,
+                        Flag = ("PL/Flags/" + qoute.Key.Substring(3) + ".png")
+                    };
+                    CurrenciesHList.Add(newCurrency);
+                }
+                return CurrenciesHList;
+            }
+
+            private async Task<List<CurrencyHistory>> LoadCountriesToHistory()
+            {
+                List<CurrencyHistory> Currencies;
+                var instance = new CurrencyLayerDotNet.CurrencyLayerApi();
+                var CurrenciesList = await instance.Invoke<CurrencyLayerDotNet.Models.CurrencyListModel>("list").ConfigureAwait(false);
+                if (CurrenciesList.Success == true)
+                {
+                    Currencies = CurrenciesList.quotes.Select(t => new CurrencyHistory() { Initials = t.Key, FullName = t.Value }).ToList();
+                }
+                else
+                    throw new Exception("Can't load countires");
+                return Currencies;
+            }
+
+            private List<CurrencyHistory> ConvertCurrencyToHistoricalCurrency(List<CurrencyHistory> curr, CurrencyLayerDotNet.Models.HistoryModel HRates)
+            {
+                List<CurrencyHistory> CurrenciesHList = new List<CurrencyHistory>();
+                foreach (var qoute in HRates.quotes)
+                {
+                    string issuesCountryName = curr.Find(t => t.Initials == qoute.Key.Substring(3)).FullName;
+                    CurrencyHistory newCurrency = new CurrencyHistory()
+                    {
+                        Value = float.Parse(qoute.Value),
+                        Initials = qoute.Key.Substring(3),
+                        FullName = issuesCountryName,
+                        Flag = ("PL/Flags/" + qoute.Key.Substring(3) + ".png")
+                    };
+                    CurrenciesHList.Add(newCurrency);
+                }
+                return CurrenciesHList;
+            }
+            #endregion
+
+
+
+            #endregion
+        }
+        */
+
+
+        public Task<Dictionary<DateTime, double>> loadCurrenciesHistory(string initial)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

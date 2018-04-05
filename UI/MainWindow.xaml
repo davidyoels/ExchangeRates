@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="900">
     <Grid>
-        
+        <UserControl x:Name="UserControl" Margin="10,80,10,0" Content="{Binding UserControl}" VerticalAlignment="Top" Height="480" Width="870"/>
+        <Button x:Name="LiveButton" Background="DarkSlateBlue" Content="LiveRate"  Margin="344,0,312,0" VerticalAlignment="Top" Width="Auto" Height="75" FontSize="24" Command="{Binding LiveRateCommand}" Foreground="White"/>
+        <Button x:Name="ConversionButton" Content="Convertion" FontSize="24" Background="DarkSlateBlue" VerticalAlignment="Top" Width="Auto" Height="75" Command="{Binding ConvertionCommand}" Foreground="White" Margin="66,0,573,0"/>
+        <Button x:Name="HistoricalButton" Content="History" FontSize="24" Background="DarkSlateBlue" Margin="602,0,68,0" VerticalAlignment="Top" Width="Auto" Height="75" Command="{Binding HistoricalCommand}" Foreground="White"/>
+
+
     </Grid>
 </Window>
