@@ -13,10 +13,23 @@ namespace DP
         private string _initials;
         private string _flag;
 
-        public string Initials { get => _initials; set => _initials = value; }
-        public double Value { get => _value; set => _value = value; }
-        public string FullName { get => _fullName; set => _fullName = value; }
-        public string Flag { get => _flag; set => _flag = value; }
+        public string Initials {
+            get { return _initials; }
+            set { _initials = value; }
+        }
+        public double Value {
+            get { return _value; }
+            set { _value = value; }
+        }
+        public string FullName {
+            get { return _fullName; }
+            set { _fullName = value; }
+            }
+        public string Flag
+        {
+            get { return _flag; }
+            set { _flag = value; }
+        }
         public int ID { get; set; }
 
     }
