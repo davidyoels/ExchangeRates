@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.ViewModels;
 
 namespace UI.UesrControls
 {
@@ -20,9 +21,12 @@ namespace UI.UesrControls
     /// </summary>
     public partial class LiveRate : UserControl
     {
+        LiveRateViewModel liveRate;
         public LiveRate()
         {
             InitializeComponent();
+            liveRate = new LiveRateViewModel();
+            this.DataContext = liveRate;
         }
     }
 }

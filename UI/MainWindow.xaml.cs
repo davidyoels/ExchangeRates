@@ -16,7 +16,7 @@ namespace UI
         public MainWindow()
         {
             InitializeComponent();
-            //a();
+            a();
             this.DataContext = new ViewModels.MainWindowVM();
         }
 
@@ -24,12 +24,11 @@ namespace UI
         {
             Bl_imp ibl = new Bl_imp();
 
-            //var rslt = await ibl.GetCurrencies().ConfigureAwait(false);
+            var rslt = await ibl.getCurrencies().ConfigureAwait(false);
          //   var rr = await ibl.GetHistorialCurrencies("ILS").ConfigureAwait(false);
-           // int x = 5;
-           // x = x + 2;
+            int x = 5;
+            x = x + 2;
 
         }
-
     }
 }

@@ -29,7 +29,7 @@ namespace UI.Commands
 
         public void Execute(object parameter)
         {
-            //mainVM.UserControl = new UserControls.LiveRate();
+            mainVM.UserControl = new UesrControls.LiveRate();
         }
     }
 }

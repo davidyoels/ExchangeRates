@@ -29,7 +29,7 @@ namespace UI.Commands
 
         public void Execute(object parameter)
         {
-            //mainVM.UserControl = new UesrControls.HistoricalCurrencires();
+            mainVM.UserControl = new UesrControls.HistoricalData();
         }
     }
 }

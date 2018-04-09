@@ -9,30 +9,43 @@ namespace DP
     //meant to be the coins on the Data Base
     public class DBCurrency
     {
-        public double Value { get; set; }
-        public string FullName { get; set; }
-        public string Initials { get; set; }
-        public string Flag { get; set; }
-        public DateTime Date { get; set; }
-        public int ID { get; set; }
-        public string Difference { get; set; }
+        private string _value;
+        private string _fullName;
+        private string _initials;
+        private string _flag;
+        private DateTime _date;
+        private string _difference;
 
-        public DBCurrency(Currency c)
+        public string Value
         {
-            this.Date = c.Date;
-            this.Flag = c.Flag;
-            this.FullName = c.FullName;
-            this.ID = c.ID;
-            this.Initials = c.Initials;
-            //לעגל בשביל התצוגה לכמה ספרות אחרי הנקודה
-           /* if (c.Value > 1000 && c.Value < 10000)
-                this.Value = string.Format("{0:F3}", c.Value);
-            else if (c.Value > 100 && c.Value < 1000)
-                this.Value = string.Format("{0:F4}", c.Value);
-            else if (c.Value > 10 && c.Value < 100)
-                this.Value = string.Format("{0:F5}", c.Value);
-            else
-                this.Value = string.Format("{0:F6}", c.Value);*/
+            get { return _value; }
+            set { _value = value; }
         }
+        public string FullName
+        {
+            get { return _fullName; }
+            set { _fullName = value; }
+        }
+        public string Initials
+        {
+            get { return _initials; }
+            set { _initials = value; }
+        }
+        public string Flag
+        {
+            get { return _flag; }
+            set { _flag = value; }
+        }
+        public DateTime Date
+        {
+            get { return _date; }
+            set { _date = value; }
+        }
+        public string Difference
+        {
+            get { return _difference; }
+            set { _difference = value; }
+        }
+        //public int ID {get;set;}
     }
 }

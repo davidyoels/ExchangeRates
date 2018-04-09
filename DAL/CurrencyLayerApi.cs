@@ -23,7 +23,7 @@ namespace CurrencyLayerDotNet
         public CurrencyLayerApi()
         {
             this._baseUrl = "http://apilayer.net/api/";
-            this._accessKey = "4a2162cebdc078b148bdca67854befcc";
+            this._accessKey = "b886f4cac90751838af88c5b2e576075";
         }
 
         public async Task<T> Invoke<T>(string path, Dictionary<string, string> postdata = null)

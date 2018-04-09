@@ -54,13 +54,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\ClearListCommand.cs" />
     <Compile Include="Commands\ConvertApplyButtonCommand.cs" />
     <Compile Include="Commands\ConvertSwapButtonCommand.cs" />
+    <Compile Include="Commands\LiveRateListViewCommand.cs" />
     <Compile Include="Commands\MenuConvertionCommand.cs" />
     <Compile Include="Commands\MenuHistoricalCommand.cs" />
     <Compile Include="Commands\MenuLiveRateCommand.cs" />
     <Compile Include="Commands\RemoveButtonCommand.cs" />
+    <Compile Include="Converters\FlagConvert.cs" />
     <Compile Include="Models\MainModel.cs" />
     <Compile Include="UesrControls\ConvertionCurrencies.xaml.cs">
       <DependentUpon>ConvertionCurrencies.xaml</DependentUpon>
@@ -312,6 +313,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ConvertionImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\currencyUpdate.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

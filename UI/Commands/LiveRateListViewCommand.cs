@@ -4,24 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using UI.ViewModels;
 
 namespace UI.Commands
 {
-    public class ClearListCommand : ICommand
+    public class LiveRateListViewCommand : ICommand
     {
-        ViewModels.LiveRateViewModel LRVM;
+
+        LiveRateViewModel conVM;
 
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
-
-        public ClearListCommand(ViewModels.LiveRateViewModel vm)
+        public LiveRateListViewCommand(ViewModels.LiveRateViewModel vm)
         {
-            this.LRVM = vm;
+            this.conVM = vm;
         }
-
         public bool CanExecute(object parameter)
         {
             return true;
@@ -29,7 +29,7 @@ namespace UI.Commands
 
         public void Execute(object parameter)
         {
-            LRVM.ClearListView();
+            conVM.DisplayLiveRateOnListView();
         }
     }
 }

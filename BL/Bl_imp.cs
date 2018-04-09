@@ -14,29 +14,11 @@ namespace BL
         {
             var lst = await new DAL_imp().loadCurrenciesAsync();
             //------NEED--TO--CHANGE--THIS-------
-            return Rounding(lst);//used to round the number until the two numbers after the dot.
-        }
-
-        private List<DBCurrency> Rounding(List<DBCurrency> lst)
-        {
             foreach (DBCurrency c in lst)
             {
-                bool isParsed = double.TryParse(c.Difference, out double temp);
-                if (isParsed)
-                {
-                    if (temp > 100 && temp < 1000)
-                        c.Difference = string.Format("{0:F2}", temp);
-                    else if (temp > 10 && temp < 100)
-                        c.Difference = string.Format("{0:F3}", temp);
-                    else
-                        c.Difference = string.Format("{0:F4}", temp);
-
-                    if (temp > 0)
-                        c.Difference = " " + c.Difference;
-                }
-                else
-                    throw new Exception("ERROR; can't parse");
+                c.Difference = "8";
             }
+            // return Rounding(lst);//used to round the number until the two numbers after the dot.
             return lst;
         }
 

@@ -16,12 +16,14 @@ namespace DAL
         public async Task<List<DBCurrency>> loadCurrenciesAsync()
         {
             DB_Context context = new DB_Context();
-            List<Currency> Currencies;
+            List<DBCurrency> Currencies =  new List<DBCurrency>();
             //ToListAsync-convert from the DbSet<Currency> to List<Currency>
-            Currencies = await context.currencies.ToListAsync().ConfigureAwait(false);
+
+            //Currencies = await context.currencies.ToListAsync();
+            
             //check if he is not empty otherwise we need to charge the list from the webSite using the Api.
             if (Currencies.Any() && CheckIfUpdate(Currencies))
-                return ChangeToDBCurrencies(Currencies);           
+                return Currencies;           
             else
             {
                 //using the instance we get the access to the webSite by the api.
@@ -33,48 +35,37 @@ namespace DAL
                 var CurrenciesValues = await instance.Invoke<CurrencyLayerDotNet.Models.LiveModel>("live").ConfigureAwait(false);
                 if (CurrenciesList.Success == true)
                 {
-                    Currencies = CurrenciesList.quotes.Select(t => new Currency() { Initials = t.Key, FullName = t.Value }).ToList();// "BND": "Brunei Dollar",
+                    Currencies = CurrenciesList.quotes.Select(t => new DBCurrency() { Initials = t.Key, FullName = t.Value }).ToList();// "BND": "Brunei Dollar",
                     Currencies = UpdateValueToCurrenciesByNames(Currencies, CurrenciesValues);
 
                     //this used to remove all the currencies form the data base and to insert the new currencies.
-                    foreach (var t in context.currencies)
-                    {
-                        context.currencies.Remove(t);
-                    }
-                    context.currencies.AddRange(Currencies);
-                    await context.SaveChangesAsync();
-                    return ChangeToDBCurrencies(Currencies);
+                    //foreach (var t in context.currencies)
+                    //{
+                    //    context.currencies.Remove(t);
+                    //}
+                    //context.currencies.AddRange(Currencies);
+                    //await context.SaveChangesAsync();
+                    return Currencies;
                 }
                 else
                     return null;
             }
         }
 
-        private List<DBCurrency> ChangeToDBCurrencies(List<Currency> currencies)//Upgrade
+        private List<DBCurrency> UpdateValueToCurrenciesByNames(List<DBCurrency> Currencies, CurrencyLayerDotNet.Models.LiveModel RTRates)
         {
-            var newList = new List<DBCurrency>();
-            foreach (Currency c in currencies)
-            {
-                var temp = new DBCurrency(c);
-                newList.Add(temp);
-            }
-            return newList;
-        }
-
-        private List<Currency> UpdateValueToCurrenciesByNames(List<Currency> Currencies, CurrencyLayerDotNet.Models.LiveModel RTRates)
-        {
-            List<Currency> CurrenciesList = new List<Currency>();
+            List<DBCurrency> CurrenciesList = new List<DBCurrency>();
             foreach (var qoute in RTRates.quotes)
             {
                 //here we get the full name of the country currency."ILS"="UDS_ILS_" and return the full name of the country.
                 string issuesCountryName = Currencies.Find(t => t.Initials == qoute.Key.Substring(3)).FullName;
-                Currency currency = new Currency()
+                DBCurrency currency = new DBCurrency()
                 {
-                    Value = double.Parse(qoute.Value),
+                    Value = qoute.Value,
                     Initials = qoute.Key.Substring(3),
                     FullName = issuesCountryName,
-                    Date = DateTime.Now
-                    //Flag = ("PL/Flags/" + qoute.Key.Substring(3) + ".png")
+                    Date = DateTime.Now,
+                    Flag = ("UI/Images/" + qoute.Key.Substring(3) + ".png")
                 };
                 CurrenciesList.Add(currency);
             }
@@ -83,10 +74,10 @@ namespace DAL
 
 
         #region check if update
-        private bool CheckIfUpdate(List<Currency> currencies)
+        private bool CheckIfUpdate(List<DBCurrency> currencies)
         {
             DB_Context context = new DB_Context();
-            Currency tmp = currencies.First();
+            DBCurrency tmp = currencies.First();
             DateTime time = DateTime.Now.ToLocalTime();
             //NEED TO CHANGE
             if (tmp.Date.AddHours(3) > DateTime.Now && (IsItTheSameDay(tmp.Date)))

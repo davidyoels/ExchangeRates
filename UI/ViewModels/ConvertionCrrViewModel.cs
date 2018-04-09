@@ -44,6 +44,7 @@ namespace UI.ViewModels
             set
             {
                 _from = value;
+                FlagFrom = @"C:\Users\david salmon\ExchangeRates\UI\Images\" + _from.Initials + ".png";
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("From"));
             }
         }
@@ -54,6 +55,7 @@ namespace UI.ViewModels
             set
             {
                 _to = value;
+                FlagTo = @"C:\Users\david salmon\ExchangeRates\UI\Images\" + _to.Initials + ".png";
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("To"));
             }
         }
@@ -77,11 +79,33 @@ namespace UI.ViewModels
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ConversionResult"));
             }
         }
+        private String _flagFrom;
+        public String FlagFrom
+        {
+            get { return _flagFrom; }
+            set
+            {
+                _flagFrom = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FlagFrom"));
+            }
+        }
+
+        private String _flagTo;
+        public String FlagTo
+        {
+            get { return _flagTo; }
+            set
+            {
+                _flagTo = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FlagTo"));
+            }
+        }
 
         private DBCurrency _from;
         private DBCurrency _to;
         private string _amount;
         private string _conversionResult;
+
 
         //functions to be execute by calling one of the commands in the Commmands folder.
         public ConvertionCrrViewModel()
@@ -109,5 +133,6 @@ namespace UI.ViewModels
             From = temp;
             GetConvertCalculation();
         }
+       
     }
 }

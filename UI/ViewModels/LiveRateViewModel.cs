@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Data;
 using DP;
 namespace UI.ViewModels
 {
@@ -14,94 +18,79 @@ namespace UI.ViewModels
 
         public Models.LiveRatingModel LRModel;
 
-        private List<DBCurrency> _CurrencyList;
+        public Commands.LiveRateListViewCommand LiveRateDisplay { get; set; }
+
+
+        private List<DBCurrency> _currencyList;
         public List<DBCurrency> CurrencyList
         {
-            get { return _CurrencyList; }
+            get { return _currencyList; }
             set
             {
-                _CurrencyList = value;
+                _currencyList = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrencyList"));
             }
         }
 
-        public Commands.ClearListCommand ClearList { get; set; }
-
-        private ObservableCollection<DBCurrency> _CurrencyObservable;
-        public ObservableCollection<DBCurrency> CurrencyObservable
+        private string _flag;
+        public string Flag
         {
-            get { return _CurrencyObservable; }
+            get { return _flag; }
             set
             {
-                _CurrencyObservable = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrencyObservable"));
+                _flag = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Flag"));
             }
         }
 
-        public ObservableCollection<DBCurrency> REALCurrencyObservable;
-        private ObservableCollection<DBCurrency> _LVList;
-        public ObservableCollection<DBCurrency> LVList
+        public async Task LoadCurrenciesList()
         {
-            get { return _LVList; }
-            set
-            {
-                _LVList = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LVList"));
-            }
+            CurrencyList = await new Models.LiveRatingModel().GetCurrencies();
         }
-
-        private DBCurrency _SelectedCurrency;
-        public DBCurrency SelectedCurrency
-        {
-            get { return _SelectedCurrency; }
-            set
-            {
-                _SelectedCurrency = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedCurrency"));
-                if (value != null)
-                {
-                    LVList.Add(value);
-                    CurrencyObservable.Remove(value);
-                }
-
-            }
-        }
-
         public LiveRateViewModel()
         {
-            LRModel = new Models.LiveRatingModel();
-            ClearList = new Commands.ClearListCommand(this);
-            CurrencyObservable = new ObservableCollection<DBCurrency>();
-            LVList = new ObservableCollection<DBCurrency>();
-            LoadCurrencyList();
+            LoadCurrenciesList();  
+        }
+        public void DisplayLiveRateOnListView()
+        {
+            LoadCurrenciesList();
         }
 
-        public async Task LoadCurrencyList()
+    
+
+       /* public void FilterList(object sender, TextChangedEventArgs e)
         {
-            CurrencyList = await LRModel.GetCurrencies();
-            REALCurrencyObservable = new ObservableCollection<DBCurrency>();
-            foreach (var item in CurrencyList)
+            TextBlock text = Live
+            List<DBCurrency> newCurrencyList = new List<DBCurrency>();
+            foreach (DBCurrency newCurrency in CurrencyList)
             {
-                REALCurrencyObservable.Add(item);
+                if (newCurrency.FullName.StartsWith())
+                    newCurrencyList.Add(newCurrency);
+
             }
-            CurrencyObservable = REALCurrencyObservable;
+            CurrencyList = newCurrencyList;
+        }*/
+        /*
+            public ConvertionCrrViewModel()
+        {
+            LoadCurrencyList();
+            ConversionActCommand = new Commands.ConvertApplyButtonCommand(this);
+            SwapCommand = new Commands.ConvertSwapButtonCommand(this);
+            ConModel = new Models.ConvertionModel();
+        }
+         */
+    }
+    public class Converter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string initial = value as string;
+            return null;
         }
 
-        public void ClearListView()
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            CurrencyObservable = new ObservableCollection<DBCurrency>();
-            CurrencyObservable = REALCurrencyObservable;
-            LVList = new ObservableCollection<DBCurrency>();
-        }
-
-        public void RemoveCurrencyFromLV(DBCurrency cur)
-        {
-            LVList.Remove(cur);
-        }
-
-        public void AddCurrencyToCombo(DBCurrency cur)
-        {
-
+            throw new NotImplementedException();
         }
     }
 }

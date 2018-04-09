@@ -8,10 +8,16 @@ namespace DP
 {
     public class History
     {
-        public string Initials { get; set; }
-        public double Value { get; set; }
-        public string FullName { get; set; }
-        public string Flag { get; set; }
+        private double _value;
+        private string _fullName;
+        private string _initials;
+        private string _flag;
+
+        public string Initials { get => _initials; set => _initials = value; }
+        public double Value { get => _value; set => _value = value; }
+        public string FullName { get => _fullName; set => _fullName = value; }
+        public string Flag { get => _flag; set => _flag = value; }
         public int ID { get; set; }
+
     }
 }

@@ -16,7 +16,7 @@ namespace DAL
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DB_Context>());
         }
         //pointing to the data base
-        public DbSet<Currency> currencies { get; set; }
+        public DbSet<DBCurrency> currencies { get; set; }
         public DbSet<History> historicalCurrencies { get; set; }
     }
 }
