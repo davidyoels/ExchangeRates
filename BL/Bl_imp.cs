@@ -7,7 +7,7 @@ using DAL;
 using DP;
 
 namespace BL
-{
+{//change 
     public class Bl_imp : IBL
     {
         public async Task<List<DBCurrency>> getCurrencies()
