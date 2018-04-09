@@ -32,6 +32,7 @@
         </ListView>
 
         <Button Background="#FF1515CB" Content="Load Live Rate Currencies" HorizontalAlignment="Left" Margin="248,10,0,0" VerticalAlignment="Top" Width="216" Height="66" Foreground="#FFE0E0E0" BorderBrush="White" Opacity="0.8" RenderTransformOrigin="0,0"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="698,42,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </UserControl>
