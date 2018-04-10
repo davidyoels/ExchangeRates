@@ -12,7 +12,7 @@ namespace DAL
 {
     public class DAL_imp : IDAL
     {
-        #region get list of updated currencies
+        #region get list of updated currencies 
         public async Task<List<DBCurrency>> loadCurrenciesAsync()
         {
             DB_Context context = new DB_Context();
@@ -21,7 +21,8 @@ namespace DAL
 
             //Currencies = await context.currencies.ToListAsync();
             
-            //check if he is not empty otherwise we need to charge the list from the webSite using the Api.
+
+            //check if it's not empty otherwise we need to charge the list from the webSite using the Api.
             if (Currencies.Any() && CheckIfUpdate(Currencies))
                 return Currencies;           
             else

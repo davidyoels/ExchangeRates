@@ -11,7 +11,7 @@ namespace DP
     {
         private string _value;
         private string _fullName;
-        private string _initials;
+        private string _initials;   
         private string _flag;
         private DateTime _date;
         private string _difference;
