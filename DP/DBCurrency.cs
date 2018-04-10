@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,15 +27,16 @@ namespace DP
             get { return _fullName; }
             set { _fullName = value; }
         }
+        [Key]
         public string Initials
         {
-            get { return _initials; }
-            set { _initials = value; }
+            get => _initials; 
+            set => _initials = value; 
         }
         public string Flag
         {
-            get { return _flag; }
-            set { _flag = value; }
+            get => _flag;
+            set => _flag = value;
         }
         public DateTime Date
         {

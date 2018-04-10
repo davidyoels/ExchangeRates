@@ -15,41 +15,51 @@ namespace DAL
         #region get list of updated currencies
         public async Task<List<DBCurrency>> loadCurrenciesAsync()
         {
-            DB_Context context = new DB_Context();
-            List<DBCurrency> Currencies =  new List<DBCurrency>();
-            //ToListAsync-convert from the DbSet<Currency> to List<Currency>
-
-            //Currencies = await context.currencies.ToListAsync();
-            
-            //check if he is not empty otherwise we need to charge the list from the webSite using the Api.
-            if (Currencies.Any() && CheckIfUpdate(Currencies))
-                return Currencies;           
-            else
+            try
             {
-                //using the instance we get the access to the webSite by the api.
-                var instance = new CurrencyLayerDotNet.CurrencyLayerApi();
-                //await - says that i will we give the cpu to anyone who wants and i will wait.
-                //here we invoke the function to get the list of initilais with their full name and resotore them using the Models.
-                //Models.CurrencyListModel - have "terms" "privacy" "currencies".
-                var CurrenciesList = await instance.Invoke<CurrencyLayerDotNet.Models.CurrencyListModel>("list").ConfigureAwait(false);
-                var CurrenciesValues = await instance.Invoke<CurrencyLayerDotNet.Models.LiveModel>("live").ConfigureAwait(false);
-                if (CurrenciesList.Success == true)
-                {
-                    Currencies = CurrenciesList.quotes.Select(t => new DBCurrency() { Initials = t.Key, FullName = t.Value }).ToList();// "BND": "Brunei Dollar",
-                    Currencies = UpdateValueToCurrenciesByNames(Currencies, CurrenciesValues);
+                DB_Context context = new DB_Context();
+                List<DBCurrency> Currencies = new List<DBCurrency>();
+                //ToListAsync-convert from the DbSet<Currency> to List<Currency>
+                
+                Currencies = await context.currencies.ToListAsync();
 
-                    //this used to remove all the currencies form the data base and to insert the new currencies.
-                    //foreach (var t in context.currencies)
-                    //{
-                    //    context.currencies.Remove(t);
-                    //}
-                    //context.currencies.AddRange(Currencies);
-                    //await context.SaveChangesAsync();
+                //check if he is not empty otherwise we need to charge the list from the webSite using the Api.
+                if (Currencies.Any() && CheckIfUpdate(Currencies))
                     return Currencies;
-                }
                 else
-                    return null;
+                {
+                    //using the instance we get the access to the webSite by the api.
+                    var instance = new CurrencyLayerDotNet.CurrencyLayerApi();
+                    //await - says that i will we give the cpu to anyone who wants and i will wait.
+                    //here we invoke the function to get the list of initilais with their full name and resotore them using the Models.
+                    //Models.CurrencyListModel - have "terms" "privacy" "currencies".
+                    var CurrenciesList = await instance.Invoke<CurrencyLayerDotNet.Models.CurrencyListModel>("list").ConfigureAwait(false);
+                    var CurrenciesValues = await instance.Invoke<CurrencyLayerDotNet.Models.LiveModel>("live").ConfigureAwait(false);
+                    if (CurrenciesList.Success == true)
+                    {
+                        Currencies = CurrenciesList.quotes.Select(t => new DBCurrency() { Initials = t.Key, FullName = t.Value }).ToList();// "BND": "Brunei Dollar",
+                        Currencies = UpdateValueToCurrenciesByNames(Currencies, CurrenciesValues);
+
+                        //this used to remove all the currencies form the data base and to insert the new currencies.
+                        foreach (var t in context.currencies)
+                        {
+                            context.currencies.Remove(t);
+                        }
+                        context.currencies.AddRange(Currencies);
+                        await context.SaveChangesAsync();
+                        return Currencies;
+                    }
+                    else
+                        return null;
+                }
             }
+
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            
         }
 
         private List<DBCurrency> UpdateValueToCurrenciesByNames(List<DBCurrency> Currencies, CurrencyLayerDotNet.Models.LiveModel RTRates)
