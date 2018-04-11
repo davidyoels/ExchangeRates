@@ -114,6 +114,7 @@ namespace UI.ViewModels
             ConversionActCommand = new Commands.ConvertApplyButtonCommand(this);
             SwapCommand = new Commands.ConvertSwapButtonCommand(this);
             ConModel = new Models.ConvertionModel();
+            
         }
 
         public async Task LoadCurrencyList()
