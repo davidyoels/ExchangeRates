@@ -7,19 +7,19 @@ using System.Windows.Input;
 
 namespace UI.Commands
 {
-    public class MenuLiveRateCommand : ICommand
+    public class ConvertionApplyCommand : ICommand
     {
-        ViewModels.MainWindowVM mainVM;
-
-        public MenuLiveRateCommand(ViewModels.MainWindowVM main)
-        {
-            mainVM = main;
-        }
+        ViewModels.ConvertionCrrViewModel conVM;
 
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public ConvertionApplyCommand(ViewModels.ConvertionCrrViewModel vm)
+        {
+            this.conVM = vm;
         }
 
         public bool CanExecute(object parameter)
@@ -29,7 +29,7 @@ namespace UI.Commands
 
         public void Execute(object parameter)
         {
-            mainVM.UserControl = new UesrControls.LiveRate();
+            conVM.GetConvertCalculation();
         }
     }
 }

@@ -4,14 +4,54 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="920">
-    <Grid>
-        <UserControl x:Name="UserControl" Margin="10,80,10,0" Content="{Binding UserControl}" VerticalAlignment="Top" Height="480" Width="870"/>
-        <Button x:Name="LiveButton" Background="DarkSlateBlue" Content="LiveRate"  Margin="344,0,312,0" VerticalAlignment="Top" Width="Auto" Height="75" FontSize="24" Command="{Binding LiveRateCommand}" Foreground="White"/>
-        <Button x:Name="ConversionButton" Content="Convertion" FontSize="24" Background="DarkSlateBlue" VerticalAlignment="Top" Width="Auto" Height="75" Command="{Binding ConvertionCommand}" Foreground="White" Margin="66,0,573,0"/>
-        <Button x:Name="HistoricalButton" Content="History" FontSize="24" Background="DarkSlateBlue" Margin="602,0,68,0" VerticalAlignment="Top" Width="Auto" Height="75" Command="{Binding HistoricalCommand}" Foreground="White"/>
+        mc:Ignorable="d" Height="600" Width="1122" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="HoverButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#993399"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <StackPanel>
+        <Grid>
 
+            <UserControl Margin="292,0,0,-118" Content="{Binding UserControl}" VerticalAlignment="Top"  Height="598" Width="830"/>
+            <StackPanel HorizontalAlignment="Left" Height="598" VerticalAlignment="Top" Width="287" Margin="0,0,0,-118">
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/UI;component/Images/BacgroundMenu.png"/>
+                </StackPanel.Background>
+                <Button Margin="0,70,0,0" x:Name="LiveButton" HorizontalContentAlignment="Stretch" Style="{StaticResource HoverButton}"  Height="74"  FontSize="24"  Command="{Binding LiveRateCommand}" CommandParameter="LiveRateButton"  Foreground="White">
+                    <TextBlock Text="Live Rate" Width="143"/>
+                </Button>
+                <Button Margin="0,20,0,0" x:Name="ConversionButton" HorizontalContentAlignment="Stretch" Style="{StaticResource HoverButton}"   Height="74" FontSize="24"  Foreground="White"  Command="{Binding ConvertionCommand}" CommandParameter="ConversionButton">
+                    <TextBlock Text="Convertion" Width="143"/>
+                </Button>
 
-    </Grid>
+                <Button Margin="0,20,0,0" x:Name="HistoricalButton" HorizontalContentAlignment="Stretch" Style="{StaticResource HoverButton}"  Height="74" FontSize="24" Command="{Binding HistoricalCommand}" CommandParameter="HistoricalButton"  Foreground="White">
+                    <TextBlock Text="History" Width="143"/>
+                </Button>
+                <Button Margin="0,20,0,0" x:Name="Exit" HorizontalContentAlignment="Left" Style="{StaticResource HoverButton}"  Height="74" FontSize="24" Command="{Binding HistoricalCommand}" CommandParameter="HistoricalButton"  Foreground="White">
+                    <TextBlock Text="Exit" Width="143"/>
+                </Button>
+            </StackPanel>
+            <!--     <Button x:Name="LiveButton" Background="DarkSlateBlue" Content="LiveRate"  Margin="344,241,312,0" VerticalAlignment="Top" Width="Auto" Height="75" FontSize="24" Command="{Binding LiveRateCommand}" Foreground="White"/>
+        <Button x:Name="ConversionButton" Content="Convertion" FontSize="24" Background="DarkSlateBlue" VerticalAlignment="Top" Width="Auto" Height="75" Command="{Binding ConvertionCommand}" Foreground="White" Margin="66,241,573,0"/>
+        <Button x:Name="HistoricalButton" Content="History" FontSize="24" Background="DarkSlateBlue" Margin="602,241,68,0" VerticalAlignment="Top" Width="Auto" Height="75" Command="{Binding HistoricalCommand}" Foreground="White"/>
+-->
+
+        </Grid>
+    </StackPanel>
+
 </Window>

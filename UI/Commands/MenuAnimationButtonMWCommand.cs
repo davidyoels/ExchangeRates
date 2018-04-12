@@ -5,16 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace UI.Commands
 {
-    public class MenuConvertionCommand : ICommand
+    public class MenuAnimationButtonMWCommand : ICommand
     {
         ViewModels.MainWindowVM mainVM;
 
-        public MenuConvertionCommand(ViewModels.MainWindowVM main)
+        public MenuAnimationButtonMWCommand(ViewModels.MainWindowVM main)
         {
-            mainVM = main;
+            mainVM = main;     
         }
 
         public event EventHandler CanExecuteChanged
@@ -30,7 +31,12 @@ namespace UI.Commands
 
         public void Execute(object parameter)
         {
-            mainVM.UserControl = new UesrControls.ConvertionCurrencies();
+            if ((string)parameter == "LiveRateButton")
+                mainVM.UserControl = new UesrControls.LiveRate();
+            else if ((string)parameter == "ConversionButton")
+                mainVM.UserControl = new UesrControls.ConvertionCurrencies();
+            else if ((string)parameter == "HistoricalButton")
+                mainVM.UserControl = new UesrControls.HistoricalData();
         }
     }
 }

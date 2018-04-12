@@ -43,11 +43,11 @@ namespace DP
             get { return _date; }
             set { _date = value; }
         }
-        public string Difference
-        {
-            get { return _difference; }
-            set { _difference = value; }
-        }
+        //public string Difference
+        //{
+        //    get { return _difference; }
+        //    set { _difference = value; }
+        //}
         //public int ID {get;set;}
     }
 }

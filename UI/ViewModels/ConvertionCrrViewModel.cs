@@ -23,7 +23,7 @@ namespace UI.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         //public Models.LiveRatingModel LRModel;
         public Models.ConvertionModel ConModel;
-        public Commands.ConvertApplyButtonCommand ConversionActCommand { get; set; }
+        public Commands.ConvertionApplyCommand ConversionActCommand { get; set; }
         public Commands.ConvertSwapButtonCommand SwapCommand { get; set; }
 
         //defintions
@@ -111,7 +111,7 @@ namespace UI.ViewModels
         public ConvertionCrrViewModel()
         {
             LoadCurrencyList();
-            ConversionActCommand = new Commands.ConvertApplyButtonCommand(this);
+            ConversionActCommand = new Commands.ConvertionApplyCommand(this);
             SwapCommand = new Commands.ConvertSwapButtonCommand(this);
             ConModel = new Models.ConvertionModel();
             

@@ -14,10 +14,10 @@ namespace BL
         {
             var lst = await new DAL_imp().loadCurrenciesAsync();
             //------NEED--TO--CHANGE--THIS-------
-            foreach (DBCurrency c in lst)
-            {
-                c.Difference = "8";
-            }
+            //foreach (DBCurrency c in lst)
+            //{
+            //    c.Difference = "8";
+            //}
             // return Rounding(lst);//used to round the number until the two numbers after the dot.
             return lst;
         }

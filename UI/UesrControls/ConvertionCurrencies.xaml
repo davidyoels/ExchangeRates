@@ -7,7 +7,7 @@
              xmlns:Converters="clr-namespace:UI.Converters"
              mc:Ignorable="d"
         Background="#0e3246"
-        Height="480" Width="900">
+        Height="480" Width="830">
     <UserControl.Resources>
 
         <DataTemplate x:Key="CurList">
@@ -25,7 +25,7 @@
     <!-- for comboBox IsEditable="True"-->
     <Grid RenderTransformOrigin="0.536,0.5">
         <TextBlock HorizontalAlignment="Left"  Margin="34,10,0,0" TextWrapping="Wrap" FontSize="35" Text="Currency Converter" VerticalAlignment="Top" FontStyle="Italic" TextDecorations="{x:Null}" FontWeight="Bold" FontFamily="Segoe UI Semibold" Foreground="White"/>
-        <ComboBox x:Name="FromConvertion" Foreground="Black"  Background="#1f485a"  IsTextSearchEnabled="True" ItemsSource="{Binding CurrencyList}" ItemTemplate="{StaticResource CurList}"  SelectedValue="{Binding From}" HorizontalAlignment="Left" Margin="108,103,0,0" VerticalAlignment="Top" Width="254" Height="58" RenderTransformOrigin="0.278,0.096" BorderBrush="#1f485a" >
+        <ComboBox x:Name="FromConvertion" Foreground="Black"  Background="#1f485a"  IsTextSearchEnabled="True" ItemsSource="{Binding CurrencyList}" ItemTemplate="{StaticResource CurList}"  SelectedValue="{Binding From}" HorizontalAlignment="Left" Margin="96,103,0,0" VerticalAlignment="Top" Width="254" Height="58" RenderTransformOrigin="0.278,0.096" BorderBrush="#1f485a" >
             <ComboBox.Resources>
                 <!-- color of ComboBoxItem -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#1f485a" />
@@ -34,7 +34,7 @@
             </ComboBox.Resources>
         </ComboBox>
 
-        <ComboBox x:Name="ToConvertion" ItemsSource="{Binding CurrencyList}" ItemTemplate="{StaticResource CurList}"  SelectedValue="{Binding To}" HorizontalAlignment="Left" Margin="606,103,2,0" VerticalAlignment="Top" Width="254" Height="58" BorderBrush="#1f485a" Foreground="#1f485a">
+        <ComboBox x:Name="ToConvertion" ItemsSource="{Binding CurrencyList}" ItemTemplate="{StaticResource CurList}"  SelectedValue="{Binding To}" HorizontalAlignment="Left" Margin="552,103,0,0" VerticalAlignment="Top" Width="254" Height="58" BorderBrush="#1f485a" Foreground="#1f485a">
             <ComboBox.Resources>
                 <!-- color of ComboBoxItem -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#1f485a" />
@@ -42,15 +42,15 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFFFFF" />
             </ComboBox.Resources>
         </ComboBox>
-        <TextBox x:Name="Amount" Text="{Binding Amount}" FontSize="30" TextAlignment="Center" HorizontalAlignment="Left" Height="176" Margin="22,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="340" Background="#243e4e"/>
-        <TextBlock x:Name="ConversionResult" FontSize="30" Text="{Binding ConversionResult}" Height="176" Width="340" Margin="520,161,40,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="#243e4e"/>
+        <TextBox x:Name="Amount" Text="{Binding Amount}" FontSize="30" TextAlignment="Center" HorizontalAlignment="Left" Height="176" Margin="10,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="340" Background="#243e4e"/>
+        <TextBlock x:Name="ConversionResult" FontSize="30" Text="{Binding ConversionResult}" Height="176" Width="340" Margin="465,161,24,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="#243e4e"/>
 
-        <Image x:Name="FromCountryFlag" Source="{Binding FlagFrom}" HorizontalAlignment="Left" Width="86" Height="59" Margin="22,103,0,0" VerticalAlignment="Top"/>
-        <Image x:Name="ToCountryFlag" Source="{Binding FlagTo}" Width="86" Height="58" Margin="520,103,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0.9"/>
+        <Image x:Name="FromCountryFlag" Source="{Binding FlagFrom}" HorizontalAlignment="Left" Width="86" Height="59" Margin="10,103,0,0" VerticalAlignment="Top"/>
+        <Image x:Name="ToCountryFlag" Source="{Binding FlagTo}" Width="86" Height="58" Margin="466,103,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0.9"/>
         <Button x:Name="Convert" Content="Convert" Command="{Binding ConversionActCommand}" HorizontalAlignment="Left" Margin="364,333,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button HorizontalAlignment="Left" Command="{Binding SwapCommand}" Margin="385,200,0,0" Background="#0e3246" VerticalAlignment="Top" Width="108" Height="56">
+        <Button HorizontalAlignment="Left" BorderBrush="{x:Null}" Command="{Binding SwapCommand}" Margin="357,194,0,0" Background="#0e3246" VerticalAlignment="Top" Height="100" Width="100">
             <StackPanel Orientation="Horizontal">
-                <Image  Source="/UI;component/Images/ConvertionImage.png" Stretch="Uniform" RenderTransformOrigin="0.423,1.519"/>
+                <Image  Source="/UI;component/Images/ConvertionImage.png"  Stretch="Uniform" RenderTransformOrigin="0.423,1.519" Height="80" Width="76"/>
             </StackPanel>
         </Button>
     </Grid>
