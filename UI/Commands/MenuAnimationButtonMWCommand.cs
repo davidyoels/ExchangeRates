@@ -37,6 +37,8 @@ namespace UI.Commands
                 mainVM.UserControl = new UesrControls.ConvertionCurrencies();
             else if ((string)parameter == "HistoricalButton")
                 mainVM.UserControl = new UesrControls.HistoricalData();
+            else if ((string)parameter == "ExitProgramButton")
+                Application.Current.Shutdown();
         }
     }
 }

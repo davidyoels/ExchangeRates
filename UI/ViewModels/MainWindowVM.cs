@@ -17,6 +17,7 @@ namespace UI.ViewModels
         public Commands.MenuAnimationButtonMWCommand ConvertionCommand { get; set; }
         public Commands.MenuAnimationButtonMWCommand LiveRateCommand { get; set; }
         public Commands.MenuAnimationButtonMWCommand HistoricalCommand { get; set; }
+        public Commands.MenuAnimationButtonMWCommand ExitProgramCommand { get; set; }
 
         private UserControl _UserControl;
         public UserControl UserControl
@@ -34,8 +35,8 @@ namespace UI.ViewModels
             mainModel = new Models.MainModel();
             ConvertionCommand = new Commands.MenuAnimationButtonMWCommand(this);
             LiveRateCommand = new Commands.MenuAnimationButtonMWCommand(this);
-            HistoricalCommand = new Commands.MenuAnimationButtonMWCommand(this);   
-            
+            HistoricalCommand = new Commands.MenuAnimationButtonMWCommand(this);
+            ExitProgramCommand = new Commands.MenuAnimationButtonMWCommand(this);
         }
     }
 }

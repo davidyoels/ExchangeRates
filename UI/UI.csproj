@@ -69,7 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ConvertionApplyCommand.cs" />
     <Compile Include="Commands\ConvertSwapButtonCommand.cs" />
-    <Compile Include="Commands\LiveRateListViewCommand.cs" />
+    <Compile Include="Commands\ExitProgramCommad.cs" />
     <Compile Include="Commands\MenuAnimationButtonMWCommand.cs" />
     <Compile Include="Commands\RemoveButtonCommand.cs" />
     <Compile Include="Converters\FlagConvert.cs" />

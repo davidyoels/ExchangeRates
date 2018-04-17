@@ -18,7 +18,6 @@ namespace UI.ViewModels
 
         public Models.LiveRatingModel LRModel;
 
-        public Commands.LiveRateListViewCommand LiveRateDisplay { get; set; }
 
 
         private List<DBCurrency> _currencyList;
@@ -50,10 +49,6 @@ namespace UI.ViewModels
         public LiveRateViewModel()
         {
             LoadCurrenciesList();  
-        }
-        public void DisplayLiveRateOnListView()
-        {
-            LoadCurrenciesList();
         }
 
     

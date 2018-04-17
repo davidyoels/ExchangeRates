@@ -8,17 +8,16 @@ using UI.ViewModels;
 
 namespace UI.Commands
 {
-    public class LiveRateListViewCommand : ICommand
+    class ExitProgramCommad : ICommand
     {
-
-        LiveRateViewModel conVM;
+        MainWindowVM conVM;
 
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
-        public LiveRateListViewCommand(ViewModels.LiveRateViewModel vm)
+        public ExitProgramCommad(ViewModels.MainWindowVM vm)
         {
             this.conVM = vm;
         }
@@ -29,7 +28,7 @@ namespace UI.Commands
 
         public void Execute(object parameter)
         {
-            conVM.DisplayLiveRateOnListView();
+           // conVM();
         }
     }
 }

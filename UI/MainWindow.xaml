@@ -42,7 +42,7 @@
                 <Button Margin="0,20,0,0" x:Name="HistoricalButton" HorizontalContentAlignment="Stretch" Style="{StaticResource HoverButton}"  Height="74" FontSize="24" Command="{Binding HistoricalCommand}" CommandParameter="HistoricalButton"  Foreground="White">
                     <TextBlock Text="History" Width="143"/>
                 </Button>
-                <Button Margin="0,20,0,0" x:Name="Exit" HorizontalContentAlignment="Left" Style="{StaticResource HoverButton}"  Height="74" FontSize="24" Command="{Binding HistoricalCommand}" CommandParameter="HistoricalButton"  Foreground="White">
+                <Button Margin="0,20,0,0" x:Name="Exit" HorizontalContentAlignment="Left" Style="{StaticResource HoverButton}"  Height="74" FontSize="24" Command="{Binding ExitProgramCommand}" CommandParameter="ExitProgramButton"  Foreground="White">
                     <TextBlock Text="Exit" Width="143"/>
                 </Button>
             </StackPanel>

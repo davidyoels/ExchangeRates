@@ -6,34 +6,30 @@
       xmlns:local="clr-namespace:UI.UesrControls"
              xmlns:Converters="clr-namespace:UI.Converters"
              mc:Ignorable="d" 
-
-            
-      d:DesignHeight="450" d:DesignWidth="800"
-             Height="600" Width="708">
+             Height="591" Width="830">
     <UserControl.Resources>
         <Converters:FlagConvert x:Key="FlagConverter"/>
 
         <DataTemplate x:Key="LiveRateList">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="{Binding Initials,Converter={StaticResource FlagConverter} }" HorizontalAlignment="Left" Width="63" Height="50"/>
-                <TextBlock Text="{Binding Value}" Margin="15,0,0,0" FontWeight="Bold" FontSize="30" FontFamily="Century Gothic"/>
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{Binding FullName}" Margin="50,0,0,0" FontSize="15" FontFamily="Century Gothic"/>
-                    <TextBlock Text="{Binding Initials}" Margin="50,10,0,0" Foreground="DarkBlue" FontSize="25" FontFamily="Century Gothic"/>
+            <Grid Width="800">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <Image Source="{Binding Initials,Converter={StaticResource FlagConverter} }"  Width="63" Height="50"/>
+                    <TextBlock Text="{Binding Value}" Margin="15,0,0,0" FontWeight="Bold" VerticalAlignment="Center" FontSize="30" FontFamily="Century Gothic"/>
                 </StackPanel>
-            </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                    <TextBlock Text="{Binding FullName}" Margin="50,0,0,0" FontSize="15" FontFamily="Century Gothic"/>
+                    <TextBlock Text="{Binding Initials}" Margin="50,10,0,0" HorizontalAlignment="Right" Foreground="DarkBlue" FontSize="25" FontFamily="Century Gothic"/>
+                </StackPanel>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <ListView ItemsSource="{Binding CurrencyList}" ItemTemplate="{StaticResource LiveRateList}" Height="519" Margin="10,71,10,0" VerticalAlignment="Top">
+        <ListView ItemsSource="{Binding CurrencyList}" ItemTemplate="{StaticResource LiveRateList}" Width="830" Height="598" Margin="10,10,10,0" VerticalAlignment="Top">
             <ListView.Background>
                 <ImageBrush ImageSource="/UI;component/Images/currencyUpdate.jpg" Opacity="0.3"/>
             </ListView.Background>
 
         </ListView>
-
-        <Button Background="#FF1515CB" Content="Load Live Rate Currencies" HorizontalAlignment="Left" Margin="520,0,0,0" VerticalAlignment="Top" Width="188" Height="66" Foreground="#FFE0E0E0" BorderBrush="White" Opacity="0.8" RenderTransformOrigin="0,0"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="698,42,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </UserControl>

@@ -20,12 +20,12 @@
         <DataTemplate x:Key="CountryImage">
             <Image Width="63" Height="50" Source="{Binding CurrencyList.Flag}" Margin="0,0,5,0"/>
         </DataTemplate>
-        <SolidColorBrush x:Key="ComboBox.Static.Background" Color="Yellow"/>
+        <SolidColorBrush x:Key="ComboBoxStaticBackground" Color="Yellow"/>
     </UserControl.Resources>
     <!-- for comboBox IsEditable="True"-->
     <Grid RenderTransformOrigin="0.536,0.5">
         <TextBlock HorizontalAlignment="Left"  Margin="34,10,0,0" TextWrapping="Wrap" FontSize="35" Text="Currency Converter" VerticalAlignment="Top" FontStyle="Italic" TextDecorations="{x:Null}" FontWeight="Bold" FontFamily="Segoe UI Semibold" Foreground="White"/>
-        <ComboBox x:Name="FromConvertion" Foreground="Black"  Background="#1f485a"  IsTextSearchEnabled="True" ItemsSource="{Binding CurrencyList}" ItemTemplate="{StaticResource CurList}"  SelectedValue="{Binding From}" HorizontalAlignment="Left" Margin="96,103,0,0" VerticalAlignment="Top" Width="254" Height="58" RenderTransformOrigin="0.278,0.096" BorderBrush="#1f485a" >
+        <ComboBox x:Name="FromConvertion" Background="{StaticResource ComboBoxStaticBackground}" Foreground="Black"   IsTextSearchEnabled="True" ItemsSource="{Binding CurrencyList}" ItemTemplate="{StaticResource CurList}"  SelectedValue="{Binding From}" HorizontalAlignment="Left" Margin="96,103,0,0" VerticalAlignment="Top" Width="254" Height="58" RenderTransformOrigin="0.278,0.096" BorderBrush="#1f485a" >
             <ComboBox.Resources>
                 <!-- color of ComboBoxItem -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#1f485a" />
