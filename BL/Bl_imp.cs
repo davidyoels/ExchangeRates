@@ -7,7 +7,7 @@ using DAL;
 using DP;
 
 namespace BL
-{//c  h ange    
+{    
     public class Bl_imp : IBL
     {
         public async Task<List<DBCurrency>> getCurrencies()
@@ -22,7 +22,7 @@ namespace BL
             return lst;
         }
 
-        //Here we use to calculate the moeny convert from * to * with the amount by the formula.
+        //Here we use to calculate the moeny convert from X to Y with the amount by the formula.
         public double ConvertCalculation(DBCurrency From, DBCurrency To, string amount)
         {
             return Convert.ToDouble(amount) * Convert.ToDouble(To.Value) / Convert.ToDouble(From.Value);
@@ -31,6 +31,11 @@ namespace BL
         public async Task<Dictionary<DateTime, double>> getHistorialCurrencies(string countryInitial)
         {
             return await new DAL_imp().loadCurrenciesHistory(countryInitial);
+        }
+
+        public void pushHistorialCurrencies()
+        {
+             new DAL_imp().pushCurrenciesHistory();
         }
     }
 }

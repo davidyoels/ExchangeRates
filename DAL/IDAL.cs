@@ -9,7 +9,8 @@ namespace DAL
 {
     interface IDAL
     {
-        Task<List<DBCurrency>> loadCurrenciesAsync();//return real time value of coins.
-        Task<Dictionary<DateTime, double>> loadCurrenciesHistory(string initials);//return real time history value of coins.
+        Task<List<DBCurrency>> loadCurrenciesAsync();   /*return real time value of coins.*/
+        Task<Dictionary<DateTime, double>> loadCurrenciesHistory(string initials);  /*return real time history value of coins.*/
+        void pushCurrenciesHistory();
     }
 }

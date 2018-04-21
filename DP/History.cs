@@ -14,6 +14,7 @@ namespace DP
         [Key]
         private string _initials;
         private string _flag;
+        private string _date;
 
         public string Initials {
             get { return _initials; }
@@ -32,7 +33,10 @@ namespace DP
             get { return _flag; }
             set { _flag = value; }
         }
-        public int ID { get; set; }
-
+        public string Date
+        {
+            get { return _date; }
+            set { _date = value; }
+        }
     }
 }

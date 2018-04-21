@@ -12,9 +12,13 @@ namespace DAL
     {
         public DB_Context() : base()
         {
-            //WHAT IS THIS
+            //Database initialization as strategies in EF
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DB_Context>());
+
+            /*If we want to turn off the database initializer for the app.*/
+            //Database.SetInitializer<DB_Context>(null);
         }
+
         //pointing to the data base
         public DbSet<DBCurrency> currencies { get; set; }
         public DbSet<History> historicalCurrencies { get; set; }
