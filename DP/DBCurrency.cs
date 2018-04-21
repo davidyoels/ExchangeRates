@@ -30,13 +30,13 @@ namespace DP
         [Key]
         public string Initials
         {
-            get => _initials; 
-            set => _initials = value; 
+            get {return  _initials; }
+            set { _initials = value; } 
         }
         public string Flag
         {
-            get => _flag;
-            set => _flag = value;
+            get { return _flag; }
+            set { _flag = value; }
         }
         public DateTime Date
         {

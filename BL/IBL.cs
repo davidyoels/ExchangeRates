@@ -10,5 +10,6 @@ namespace BL
     {
         Task<List<DBCurrency>> getCurrencies();
         Task<Dictionary<DateTime, double>> getHistorialCurrencies(string countryInitial);
+        void pushHistorialCurrencies();
     }
 }

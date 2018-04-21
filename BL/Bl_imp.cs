@@ -32,6 +32,11 @@ namespace BL
         {
             return await new DAL_imp().loadCurrenciesHistory(countryInitial);
         }
+
+        public void pushHistorialCurrencies()
+        {
+             new DAL_imp().pushCurrenciesHistory();
+        }
     }
 }
 

@@ -15,7 +15,7 @@ namespace DAL
             //Database initialization as strategies in EF
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DB_Context>());
 
-            //If we want to turn off the database initializer for the app.
+            /*If we want to turn off the database initializer for the app.*/
             //Database.SetInitializer<DB_Context>(null);
         }
 
