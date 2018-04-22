@@ -11,7 +11,7 @@ using LiveCharts;
 using LiveCharts.Configurations;
 namespace UI.ViewModels
 {
-    public class HistoricalChartViewModel : UserControl, INotifyPropertyChanged
+    public partial class HistoricalChartViewModel : UserControl, INotifyPropertyChanged
     {
         private double _axisMax;
         private double _axisMin;

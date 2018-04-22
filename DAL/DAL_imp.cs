@@ -288,6 +288,8 @@ namespace DAL
         {
             DB_Context context = new DB_Context();
             List<History> Currencies = new List<History>();
+            if (context.historicalCurrencies == null)
+                return;
             Currencies = await context.historicalCurrencies.ToListAsync();
 
             Dictionary<string, string> _date = new Dictionary<string, string>();
