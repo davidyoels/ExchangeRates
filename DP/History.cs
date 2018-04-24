@@ -9,13 +9,21 @@ namespace DP
 {
     public class History
     {
+        private int _id;
         private double _value;
         private string _fullName;
        
         private string _initials;
         private string _flag;
         private string _date;
+
         [Key]
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
         public string Initials {
             get { return _initials; }
             set { _initials = value; }
