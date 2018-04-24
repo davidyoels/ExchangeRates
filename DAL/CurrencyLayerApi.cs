@@ -31,7 +31,6 @@ namespace CurrencyLayerDotNet
             try
             {
                 _httpClient = new HttpClient();
-
                 this._queryUrl = (this._baseUrl + path + buildEndpointRoute(_accessKey, postdata));
 
                 _response = await _httpClient.GetAsync(this._queryUrl);

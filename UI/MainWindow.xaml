@@ -23,7 +23,35 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Storyboard x:Key="Storyboard1">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="LiveButton">
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="LiveButton">
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="-60"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="Storyboard2">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="LiveButton">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="507"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.1" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="LiveButton">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="180"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.1" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource Storyboard1}"/>
+            <BeginStoryboard Storyboard="{StaticResource Storyboard2}"/>
+        </EventTrigger>
+    </Window.Triggers>
     <StackPanel>
         <Grid>
 
@@ -32,7 +60,15 @@
                 <StackPanel.Background>
                     <ImageBrush ImageSource="/UI;component/Images/BacgroundMenu.png"/>
                 </StackPanel.Background>
-                <Button Margin="0,70,0,0" x:Name="LiveButton" HorizontalContentAlignment="Stretch" Style="{StaticResource HoverButton}"  Height="74"  FontSize="24"  Command="{Binding LiveRateCommand}" CommandParameter="LiveRateButton"  Foreground="White">
+                <Button Margin="0,70,0,0" x:Name="LiveButton" HorizontalContentAlignment="Stretch" Style="{StaticResource HoverButton}"  Height="74"  FontSize="24"  Command="{Binding LiveRateCommand}" CommandParameter="LiveRateButton"  Foreground="White" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
                     <TextBlock Text="Live Rate" Width="143"/>
                 </Button>
                 <Button Margin="0,20,0,0" x:Name="ConversionButton" HorizontalContentAlignment="Stretch" Style="{StaticResource HoverButton}"   Height="74" FontSize="24"  Foreground="White"  Command="{Binding ConvertionCommand}" CommandParameter="ConversionButton">
