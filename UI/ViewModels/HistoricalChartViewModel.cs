@@ -3,40 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using UI.ViewModels;
 using System.ComponentModel;
 using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
 using LiveCharts;
 using LiveCharts.Configurations;
-using BL;
-
-
-namespace UI.UesrControls
+namespace UI.ViewModels
 {
-    /// <summary>
-    /// Interaction logic for HistoricalData.xaml
-    /// </summary>
-    public partial class HistoricalData : UserControl, INotifyPropertyChanged
+    public partial class HistoricalChartViewModel : UserControl, INotifyPropertyChanged
     {
         private double _axisMax;
         private double _axisMin;
         private double _trend;
-        Task<Dictionary<DateTime, double>> collec;
-        Dictionary<DateTime, double> dict;
-        public HistoricalData()
+
+        public HistoricalChartViewModel()
         {
-            collec = new Bl_imp().getHistorialCurrencies("AED");
-            InitializeComponent();
-            dict = collec.Result;
+            //InitializeComponent();
+
             //To handle live data easily, in this case we built a specialized type
             //the MeasureModel class, it only contains 2 properties
             //DateTime and Value
@@ -59,7 +43,7 @@ namespace UI.UesrControls
             ChartValues = new ChartValues<MeasureModel>();
 
             //lets set how to display the X Labels
-            DateTimeFormatter = value => new DateTime((long)value).ToString("yyyy:MM:dd");
+            DateTimeFormatter = value => new DateTime((long)value).ToString("mm:ss");
 
             //AxisStep forces the distance between each separator in the X axis
             AxisStep = TimeSpan.FromSeconds(1).Ticks;
@@ -75,6 +59,7 @@ namespace UI.UesrControls
 
             DataContext = this;
         }
+
         public ChartValues<MeasureModel> ChartValues { get; set; }
         public Func<double, string> DateTimeFormatter { get; set; }
         public double AxisStep { get; set; }
@@ -111,15 +96,13 @@ namespace UI.UesrControls
                 var now = DateTime.Now;
 
                 _trend += r.Next(-8, 10);
-                foreach (KeyValuePair<DateTime, double> entry in dict) {
-                    ChartValues.Add(new MeasureModel
-                    {
-                        DateTime = entry.Key,
-                        Value = entry.Value
-                        //DateTime = now,
-                        //Value = _trend
-                    });
-                }
+
+                ChartValues.Add(new MeasureModel
+                {
+                    DateTime = now,
+                    Value = _trend
+                });
+
                 SetAxisLimits(now);
 
                 //lets only use the last 150 values
