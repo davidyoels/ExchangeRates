@@ -1,11 +1,11 @@
-﻿using System;
+﻿using DP;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Globalization;
-using DP;
-using System.Data.Entity;
 
 
 
@@ -21,7 +21,7 @@ namespace DAL
                 DB_Context context = new DB_Context();
                 List<DBCurrency> Currencies = new List<DBCurrency>();
                 //ToListAsync-convert from the DbSet<Currency> to List<Currency>
-
+                loadCurrenciesHistory("ILS");
                 Currencies = await context.currencies.ToListAsync();
 
                 //check if it's not empty otherwise we need to charge the list from the webSite using the Api.
@@ -288,12 +288,12 @@ namespace DAL
         {
             DB_Context context = new DB_Context();
             List<History> Currencies = new List<History>();
-            if (context.historicalCurrencies == null)
-                return;
+            //if (context.historicalCurrencies == null)
+            //    return;
             Currencies = await context.historicalCurrencies.ToListAsync();
 
             Dictionary<string, string> _date = new Dictionary<string, string>();
-            DateTime dt = DateTime.ParseExact(DateTime.Now.ToString(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime dt = DateTime.Now;//DateTime.ParseExact(DateTime.Now.ToString(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
             if (Currencies.Any())  //The table isn't empty.
                 return;            //Don't need to download again the hostori...
 
@@ -302,8 +302,9 @@ namespace DAL
             Dictionary<string, string> converter = init_fullName.quotes;
             for (int i = 0; i < 10; i++)
             {
-                _date.Add("date", dt.ToString());// "YYYY-MM-DD"));
+                _date.Add("date", dt.ToString("yyyy-MM-dd"));// "YYYY-MM-DD"));               
                 var CurrenciesList = await instance.Invoke<CurrencyLayerDotNet.Models.HistoryModel>("historical", _date).ConfigureAwait(false);
+                _date.Clear();
                 DateTime shareDate = dt;
                 dt.AddDays(-7); //check the values for all the weeks.
                 Dictionary<string, string> items = CurrenciesList.quotes;
@@ -314,7 +315,7 @@ namespace DAL
                     double value = Double.Parse(entry.Value);
                     string inital = entry.Key.Substring(3);
                     string fullName = converter[inital];
-                    string flag = "UI/Images/" + inital.Substring(3) + ".png";
+                    string flag = "UI/Images/" + entry.Key.Substring(3) + ".png";
                     string date = dt.Ticks.ToString(); 
                     Currencies.Add(new History() { Initials = inital, Date = date, Flag = flag, Value = value, FullName = fullName });
                 }

@@ -34,7 +34,7 @@ namespace UI.UesrControls
         Dictionary<DateTime, double> dict;
         public HistoricalData()
         {
-            collec = new Bl_imp().getHistorialCurrencies("");
+            collec = new Bl_imp().getHistorialCurrencies("AED");
             InitializeComponent();
             dict = collec.Result;
             //To handle live data easily, in this case we built a specialized type

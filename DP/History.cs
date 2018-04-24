@@ -11,11 +11,11 @@ namespace DP
     {
         private double _value;
         private string _fullName;
-        [Key]
+       
         private string _initials;
         private string _flag;
         private string _date;
-
+        [Key]
         public string Initials {
             get { return _initials; }
             set { _initials = value; }
